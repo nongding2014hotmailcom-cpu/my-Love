@@ -63,18 +63,16 @@
             color: #666;
         }
         .flower-img {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             border-radius: 20px;
             margin-bottom: 20px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
-        /* ซ่อนหน้าสองไว้ก่อน */
         .hidden {
             display: none;
         }
-        /* ตกแต่งปุ่มเพลง */
         .music-btn {
             position: fixed;
             bottom: 20px;
@@ -85,16 +83,15 @@
             padding: 10px 15px;
             border-radius: 30px;
             font-size: 0.9rem;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
 
-    <!-- เพลงประกอบ (Dance with Me) -->
-    <!-- ระบบจะเล่นอัตโนมัติเมื่อกดผ่านหน้าแรกเพื่อความโรแมนติก -->
-    <audio id="bgMusic" loop>
+    <!-- ใช้ไฟล์เพลงที่เล่นบนเว็บได้แน่นอน -->
+    <audio id="bgMusic" loop preload="auto">
         <source src="https://soundhelix.com" type="audio/mp3">
-        <!-- โค้ดนี้ใช้เพลงตัวอย่างอยู่ หากคุณมีลิงก์เพลง Dance with me แบบ .mp3 สามารถนำมาเปลี่ยนตรง src="ลิงก์" ได้เลยครับ -->
     </audio>
 
     <!-- ปุ่มควบคุมเพลงมุมขวาจอล่าง -->
@@ -111,8 +108,8 @@
 
     <!-- หน้าที่ 2: หน้าเซอร์ไพรส์หลัก -->
     <div class="container hidden" id="page2">
-        <!-- รูปการ์ตูนน่ารักๆ ถือดอกไม้ (เปลี่ยนรูปเองได้โดยแก้ลิงก์ใน src) -->
-        <img class="flower-img" src="https://unsplash.com" alt="Cute flower holder">
+        <!-- ลิงก์รูปภาพการ์ตูนหมีถือดอกไม้ตัวใหม่ สวยงามคมชัด -->
+        <img class="flower-img" src="https://pixabay.com" alt="Flower Bear">
         
         <h1 id="dynamicReply">กอด ๆ น้าาา 🧸</h1>
         <p>เค้ารักคนเก่งที่สุดในโลกเลยน้าาา ขอบคุณที่อดทนและตั้งใจมาตลอดเลยนะคะ อยู่เป็นรอยยิ้มให้กันแบบนี้ไปนาน ๆ นะ 🌹✨</p>
@@ -127,15 +124,18 @@
         const musicCtrl = document.getElementById('musicCtrl');
 
         function nextPage(userFeel) {
-            // ซ่อนหน้า 1 เปิดหน้า 2
             document.getElementById('page1').classList.add('hidden');
             document.getElementById('page2').classList.remove('hidden');
             musicCtrl.classList.remove('hidden');
             
-            // พยายามเล่นเพลงทันทีที่กด (เลี่ยงกฎบล็อกเสียงอัตโนมัติของเบราว์เซอร์)
-            music.play().catch(error => console.log("Playback interaction triggers music"));
+            // ปรับระดับเสียงและสั่งให้เล่นเพลงทันทีหลังจากผู้ใช้มีปฏิสัมพันธ์กับหน้าจอ (ผ่านเกณฑ์เบราว์เซอร์)
+            music.volume = 0.5;
+            music.play().then(() => {
+                console.log("Music started playing successfully.");
+            }).catch(error => {
+                console.log("Playback error: ", error);
+            });
 
-            // ปรับเปลี่ยนคำทักทายตามที่กดมา
             const replyTitle = document.getElementById('dynamicReply');
             if(userFeel === 'เหนื่อยมากเลย') {
                 replyTitle.innerHTML = "กอด ๆ น้าคนเก่งของเค้า 🧸💕";
@@ -144,7 +144,6 @@
             }
         }
 
-        // ฟังก์ชันเปิด-ปิดเพลงด้วยตัวเอง
         function toggleMusic() {
             if (music.paused) {
                 music.play();
