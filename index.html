@@ -89,15 +89,14 @@
 </head>
 <body>
 
-    <!-- ใช้ไฟล์เพลงที่เล่นบนเว็บได้แน่นอน -->
+    <!-- เรียกไฟล์เพลงจากใน GitHub ของตัวเอง -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://soundhelix.com" type="audio/mp3">
+        <source src="music.mp3" type="audio/mp3">
     </audio>
 
-    <!-- ปุ่มควบคุมเพลงมุมขวาจอล่าง -->
     <button class="music-btn hidden" id="musicCtrl" onclick="toggleMusic()">🎵 ปิดเพลง</button>
 
-    <!-- หน้าที่ 1: คำถามแรกเข้า -->
+    <!-- หน้าที่ 1 -->
     <div class="container" id="page1">
         <h1>คนเก่งเหนื่อยไหมคะวันนี้? 🥺💖</h1>
         <div class="btn-group">
@@ -106,12 +105,12 @@
         </div>
     </div>
 
-    <!-- หน้าที่ 2: หน้าเซอร์ไพรส์หลัก -->
+    <!-- หน้าที่ 2 -->
     <div class="container hidden" id="page2">
-        <!-- ลิงก์รูปภาพการ์ตูนหมีถือดอกไม้ตัวใหม่ สวยงามคมชัด -->
-        <img class="flower-img" src="https://pixabay.com" alt="Flower Bear">
+        <!-- เรียกไฟล์รูปภาพจากใน GitHub ของตัวเอง -->
+        <img class="flower-img" src="flower.png" alt="Flower Pic">
         
-        <h1 id="dynamicReply">กอด ๆ น้าาา 🧸</h1>
+        <h1 id="dynamicReply">กอด ๆ น้าานะคนเก่ง 🧸</h1>
         <p>เค้ารักคนเก่งที่สุดในโลกเลยน้าาา ขอบคุณที่อดทนและตั้งใจมาตลอดเลยนะคะ อยู่เป็นรอยยิ้มให้กันแบบนี้ไปนาน ๆ นะ 🌹✨</p>
         
         <div class="btn-group">
@@ -128,13 +127,8 @@
             document.getElementById('page2').classList.remove('hidden');
             musicCtrl.classList.remove('hidden');
             
-            // ปรับระดับเสียงและสั่งให้เล่นเพลงทันทีหลังจากผู้ใช้มีปฏิสัมพันธ์กับหน้าจอ (ผ่านเกณฑ์เบราว์เซอร์)
-            music.volume = 0.5;
-            music.play().then(() => {
-                console.log("Music started playing successfully.");
-            }).catch(error => {
-                console.log("Playback error: ", error);
-            });
+            music.volume = 0.6;
+            music.play().catch(error => console.log("Playback error: ", error));
 
             const replyTitle = document.getElementById('dynamicReply');
             if(userFeel === 'เหนื่อยมากเลย') {
