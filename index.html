@@ -89,7 +89,7 @@
 </head>
 <body>
 
-    <!-- ปรับชื่อไฟล์เสียงตามตัวที่อัปโหลด -->
+    <!-- ใช้ไฟล์มิวสิคตัวเดิมที่คุณอัปโหลดไว้ -->
     <audio id="bgMusic" loop preload="auto">
         <source src="music.mp3.mp3" type="audio/mp3">
     </audio>
@@ -100,14 +100,14 @@
     <div class="container" id="page1">
         <h1>คนเก่งเหนื่อยไหมคะวันนี้? 🥺💖</h1>
         <div class="btn-group">
-            <button class="primary-btn" onclick="nextPage('เหนื่อยมากเลย')">เหนื่อยมาก 🥺</button>
-            <button class="secondary-btn" onclick="nextPage('ไม่เหนื่อยเลย')">ไม่เหนื่อยคับ 😎</button>
+            <!-- เพิ่มฟังก์ชันจัดการเล่นเพลงโดยตรงเมื่อกดปุ่ม -->
+            <button class="primary-btn" onclick="playMusicAndNext('เหนื่อยมากเลย')">เหนื่อยมาก 🥺</button>
+            <button class="secondary-btn" onclick="playMusicAndNext('ไม่เหนื่อยเลย')">ไม่เหนื่อยคับ 😎</button>
         </div>
     </div>
 
     <!-- หน้าที่ 2 -->
     <div class="container hidden" id="page2">
-        <!-- ปรับชื่อไฟล์รูปภาพตามตัวที่อัปโหลด -->
         <img class="flower-img" src="flower.png.png" alt="Flower Pic">
         
         <h1 id="dynamicReply">กอด ๆ น้านะคนเก่ง 🧸</h1>
@@ -122,13 +122,23 @@
         const music = document.getElementById('bgMusic');
         const musicCtrl = document.getElementById('musicCtrl');
 
-        function nextPage(userFeel) {
+        function playMusicAndNext(userFeel) {
+            // สั่งเล่นเพลงทันทีที่นิ้วหรือเมาส์กดโดนปุ่ม เพื่อให้เบราว์เซอร์ปลดล็อกระบบเสียง
+            music.volume = 0.6;
+            var startPlay = music.play();
+            
+            if (startPlay !== undefined) {
+                startPlay.then(() => {
+                    console.log("Music started!");
+                }).catch(error => {
+                    console.log("Autoplay prevented, trying fallback...");
+                });
+            }
+
+            // เปลี่ยนหน้าปกติ
             document.getElementById('page1').classList.add('hidden');
             document.getElementById('page2').classList.remove('hidden');
             musicCtrl.classList.remove('hidden');
-            
-            music.volume = 0.6;
-            music.play().catch(error => console.log("Playback error: ", error));
 
             const replyTitle = document.getElementById('dynamicReply');
             if(userFeel === 'เหนื่อยมากเลย') {
