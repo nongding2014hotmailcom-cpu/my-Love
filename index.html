@@ -38,10 +38,17 @@
         }
         .btn-group {
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+        }
+        .row-btn-group {
+            display: flex;
             justify-content: center;
             gap: 15px;
+            margin-bottom: 5px;
         }
-        button {
+        button, .music-link-btn {
             padding: 12px 28px;
             font-size: 1.1rem;
             border: none;
@@ -49,6 +56,8 @@
             cursor: pointer;
             transition: 0.3s;
             font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
         }
         .primary-btn {
             background-color: #ff4d6d;
@@ -62,6 +71,18 @@
             background-color: #f0f0f0;
             color: #666;
         }
+        /* ปุ่มลิงก์ฟังเพลงน่ารัก ๆ */
+        .music-link-btn {
+            background-color: #43aa8b;
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 170, 139, 0.4);
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        .music-link-btn:hover {
+            transform: scale(1.05);
+            background-color: #388e75;
+        }
         .flower-img {
             width: 200px;
             height: 200px;
@@ -73,36 +94,16 @@
         .hidden {
             display: none;
         }
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            border: 2px solid #ff4d6d;
-            color: #ff4d6d;
-            padding: 10px 15px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            z-index: 100;
-        }
     </style>
 </head>
 <body>
 
-    <!-- ใช้ไฟล์มิวสิคตัวเดิมที่คุณอัปโหลดไว้ -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="music.mp3.mp3" type="audio/mp3">
-    </audio>
-
-    <button class="music-btn hidden" id="musicCtrl" onclick="toggleMusic()">🎵 ปิดเพลง</button>
-
     <!-- หน้าที่ 1 -->
     <div class="container" id="page1">
         <h1>คนเก่งเหนื่อยไหมคะวันนี้? 🥺💖</h1>
-        <div class="btn-group">
-            <!-- เพิ่มฟังก์ชันจัดการเล่นเพลงโดยตรงเมื่อกดปุ่ม -->
-            <button class="primary-btn" onclick="playMusicAndNext('เหนื่อยมากเลย')">เหนื่อยมาก 🥺</button>
-            <button class="secondary-btn" onclick="playMusicAndNext('ไม่เหนื่อยเลย')">ไม่เหนื่อยคับ 😎</button>
+        <div class="row-btn-group">
+            <button class="primary-btn" onclick="nextPage('เหนื่อยมากเลย')">เหนื่อยมาก 🥺</button>
+            <button class="secondary-btn" onclick="nextPage('ไม่เหนื่อยเลย')">ไม่เหนื่อยคับ 😎</button>
         </div>
     </div>
 
@@ -114,47 +115,28 @@
         <p>เค้ารักคนเก่งที่สุดในโลกเลยน้าาา ขอบคุณที่อดทนและตั้งใจมาตลอดเลยนะคะ อยู่เป็นรอยยิ้มให้กันแบบนี้ไปนาน ๆ นะ 🌹✨</p>
         
         <div class="btn-group">
-            <button class="primary-btn" onclick="alert('รักเหมือนกันน้าาา จุ๊บๆ 😘')">รักเค้าเหมือนกันมั้ย? (กดเล้ย)</button>
+            <div class="row-btn-group">
+                <button class="primary-btn" onclick="alert('รักเหมือนกันน้าาา จุ๊บๆ 😘')">รักเค้าเหมือนกันมั้ย? (กดเล้ย)</button>
+            </div>
+            
+            <!-- ปุ่มแปะลิงก์ URL เพลง Dance with me -->
+            <!-- คุณสามารถก๊อปปี้ลิงก์เพลงจาก YouTube หรือ Spotify มาเปลี่ยนตรงคำว่า href="เปลี่ยนลิงก์ตรงนี้" ได้เลยครับ -->
+            <a href="https://youtu.be/10GeHGvHUsA?si=xiwUVPFlVsFAaJYl" target="_blank" class="music-link-btn">
+                🎵 กดฟังเพลง Dance with me ตรงนี้คับ
+            </a>
         </div>
     </div>
 
     <script>
-        const music = document.getElementById('bgMusic');
-        const musicCtrl = document.getElementById('musicCtrl');
-
-        function playMusicAndNext(userFeel) {
-            // สั่งเล่นเพลงทันทีที่นิ้วหรือเมาส์กดโดนปุ่ม เพื่อให้เบราว์เซอร์ปลดล็อกระบบเสียง
-            music.volume = 0.6;
-            var startPlay = music.play();
-            
-            if (startPlay !== undefined) {
-                startPlay.then(() => {
-                    console.log("Music started!");
-                }).catch(error => {
-                    console.log("Autoplay prevented, trying fallback...");
-                });
-            }
-
-            // เปลี่ยนหน้าปกติ
+        function nextPage(userFeel) {
             document.getElementById('page1').classList.add('hidden');
             document.getElementById('page2').classList.remove('hidden');
-            musicCtrl.classList.remove('hidden');
 
             const replyTitle = document.getElementById('dynamicReply');
             if(userFeel === 'เหนื่อยมากเลย') {
                 replyTitle.innerHTML = "กอด ๆ น้าคนเก่งของเค้า 🧸💕";
             } else {
-                replyTitle.innerHTML = "เก่งที่สุดเลย แฟนใครเนี่ย 🥰💖";
-            }
-        }
-
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                musicCtrl.innerHTML = "🎵 ปิดเพลง";
-            } else {
-                music.pause();
-                musicCtrl.innerHTML = "🔈 เปิดเพลง";
+                replyTitle.innerHTML = "เก่งที่สุดเลย สาวใครเนี่ย 🥰💖";
             }
         }
     </script>
