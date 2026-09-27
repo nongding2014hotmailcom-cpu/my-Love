@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เป็นแฟนกันไหม? ❤️</title>
+    <title>ถึงคนเก่งของเค้า ❤️</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #ffe6e6;
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffb3c6 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,68 +17,142 @@
         }
         .container {
             text-align: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            transition: all 0.5s ease;
         }
         h1 {
             color: #ff4d6d;
-            font-size: 2rem;
-            margin-bottom: 30px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
         }
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            position: relative;
+            gap: 15px;
         }
         button {
-            padding: 12px 30px;
-            font-size: 1.2rem;
+            padding: 12px 28px;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
+            font-weight: bold;
         }
-        #yesBtn {
+        .primary-btn {
             background-color: #ff4d6d;
             color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
         }
-        #noBtn {
-            background-color: #ccc;
-            color: #333;
-            position: absolute;
+        .primary-btn:hover {
+            transform: scale(1.05);
+        }
+        .secondary-btn {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+        .flower-img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        /* ซ่อนหน้าสองไว้ก่อน */
+        .hidden {
+            display: none;
+        }
+        /* ตกแต่งปุ่มเพลง */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #ff4d6d;
+            color: #ff4d6d;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 id="question">เป็นแฟนกันไหมคะ? 🥺❤️</h1>
+    <!-- เพลงประกอบ (Dance with Me) -->
+    <!-- ระบบจะเล่นอัตโนมัติเมื่อกดผ่านหน้าแรกเพื่อความโรแมนติก -->
+    <audio id="bgMusic" loop>
+        <source src="https://soundhelix.com" type="audio/mp3">
+        <!-- โค้ดนี้ใช้เพลงตัวอย่างอยู่ หากคุณมีลิงก์เพลง Dance with me แบบ .mp3 สามารถนำมาเปลี่ยนตรง src="ลิงก์" ได้เลยครับ -->
+    </audio>
+
+    <!-- ปุ่มควบคุมเพลงมุมขวาจอล่าง -->
+    <button class="music-btn hidden" id="musicCtrl" onclick="toggleMusic()">🎵 ปิดเพลง</button>
+
+    <!-- หน้าที่ 1: คำถามแรกเข้า -->
+    <div class="container" id="page1">
+        <h1>คนเก่งเหนื่อยไหมคะวันนี้? 🥺💖</h1>
         <div class="btn-group">
-            <button id="yesBtn" onclick="acceptLove()">ตกลง</button>
-            <button id="noBtn" onmouseover="moveButton()">ไม่เป็น</button>
+            <button class="primary-btn" onclick="nextPage('เหนื่อยมากเลย')">เหนื่อยมาก 🥺</button>
+            <button class="secondary-btn" onclick="nextPage('ไม่เหนื่อยเลย')">ไม่เหนื่อยคับ 😎</button>
+        </div>
+    </div>
+
+    <!-- หน้าที่ 2: หน้าเซอร์ไพรส์หลัก -->
+    <div class="container hidden" id="page2">
+        <!-- รูปการ์ตูนน่ารักๆ ถือดอกไม้ (เปลี่ยนรูปเองได้โดยแก้ลิงก์ใน src) -->
+        <img class="flower-img" src="https://unsplash.com" alt="Cute flower holder">
+        
+        <h1 id="dynamicReply">กอด ๆ น้าาา 🧸</h1>
+        <p>เค้ารักคนเก่งที่สุดในโลกเลยน้าาา ขอบคุณที่อดทนและตั้งใจมาตลอดเลยนะคะ อยู่เป็นรอยยิ้มให้กันแบบนี้ไปนาน ๆ นะ 🌹✨</p>
+        
+        <div class="btn-group">
+            <button class="primary-btn" onclick="alert('รักเหมือนกันน้าาา จุ๊บๆ 😘')">รักเค้าเหมือนกันมั้ย? (กดเล้ย)</button>
         </div>
     </div>
 
     <script>
-        // ฟังก์ชันเมื่อกด ตกลง
-        function acceptLove() {
-            document.getElementById('question').innerHTML = "เย้! รักที่สุดเลยยย 🥰💖";
-            document.querySelector('.btn-group').style.display = 'none';
+        const music = document.getElementById('bgMusic');
+        const musicCtrl = document.getElementById('musicCtrl');
+
+        function nextPage(userFeel) {
+            // ซ่อนหน้า 1 เปิดหน้า 2
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
+            musicCtrl.classList.remove('hidden');
+            
+            // พยายามเล่นเพลงทันทีที่กด (เลี่ยงกฎบล็อกเสียงอัตโนมัติของเบราว์เซอร์)
+            music.play().catch(error => console.log("Playback interaction triggers music"));
+
+            // ปรับเปลี่ยนคำทักทายตามที่กดมา
+            const replyTitle = document.getElementById('dynamicReply');
+            if(userFeel === 'เหนื่อยมากเลย') {
+                replyTitle.innerHTML = "กอด ๆ น้าคนเก่งของเค้า 🧸💕";
+            } else {
+                replyTitle.innerHTML = "เก่งที่สุดเลย แฟนใครเนี่ย 🥰💖";
+            }
         }
 
-        // ฟังก์ชันให้ปุ่ม "ไม่เป็น" ขยับหนีเมื่อเอาเมาส์ไปชี้
-        function moveButton() {
-            const noBtn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
-            
-            // ปรับตำแหน่งปุ่มให้หลุดออกจากคอนเทนเนอร์เดิมเพื่อหนีไปรอบ ๆ จอ
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+        // ฟังก์ชันเปิด-ปิดเพลงด้วยตัวเอง
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicCtrl.innerHTML = "🎵 ปิดเพลง";
+            } else {
+                music.pause();
+                musicCtrl.innerHTML = "🔈 เปิดเพลง";
+            }
         }
     </script>
 
