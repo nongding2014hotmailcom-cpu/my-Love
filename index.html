@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เป็นแฟนกันไหม? ❤️</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff4d6d;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        #noBtn {
+            background-color: #ccc;
+            color: #333;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="question">เป็นแฟนกันไหมคะ? 🥺❤️</h1>
+        <div class="btn-group">
+            <button id="yesBtn" onclick="acceptLove()">ตกลง</button>
+            <button id="noBtn" onmouseover="moveButton()">ไม่เป็น</button>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันเมื่อกด ตกลง
+        function acceptLove() {
+            document.getElementById('question').innerHTML = "เย้! รักที่สุดเลยยย 🥰💖";
+            document.querySelector('.btn-group').style.display = 'none';
+        }
+
+        // ฟังก์ชันให้ปุ่ม "ไม่เป็น" ขยับหนีเมื่อเอาเมาส์ไปชี้
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            
+            // ปรับตำแหน่งปุ่มให้หลุดออกจากคอนเทนเนอร์เดิมเพื่อหนีไปรอบ ๆ จอ
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+    </script>
+
+</body>
+</html>
